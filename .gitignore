@@ -4,10 +4,10 @@
 embeddings/data/
 embeddings/text8.zip
 face_generation/data/
-
+image/
 .ipynb_checkpoints/
 
-
+*.pickle
 *.pyc
 *.p
 *.pkl
