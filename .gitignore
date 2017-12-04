@@ -6,6 +6,9 @@ embeddings/text8.zip
 face_generation/data/
 image/
 .ipynb_checkpoints/
+dogImages/
+lfw/
+bottleneck_features/
 
 *.pickle
 *.pyc
