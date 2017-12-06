@@ -1,0 +1,1 @@
+Note that for data augmentation steps, I borrowed heavily from this blog post: https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html 
