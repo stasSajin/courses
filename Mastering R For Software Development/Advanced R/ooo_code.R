@@ -26,35 +26,19 @@ print.LongitudinalData <- function(df) {
 # method for finding subject specific info
 subject <- function(df, subject_id) UseMethod("subject")
 subject.LongitudinalData <- function(df, subject_id) {
+  if(sum(df$id == subject_id) == 0)
+    return(NULL)
   df <- df[df$id == subject_id]
-  make_LD(df)
+  print(dim(df))
+  structure(df, class = "Subject")
 }
+
 
 # printing method for subjects
 print.Subject <- function(df) {
   cat("Subject ID:", df[["id"]])
+  invisible(df)
 }
-
-summary.Subject <- function(subject_data) {
-  result <- subject_data %>% 
-    group_by(visit, room) %>%
-    summarise(value = mean(value)) %>% 
-    spread(room, value) %>% 
-    as.data.frame
-  structure(result, class = "Summary")
-}
-
-
-
-# method for visit specific information
-visit <- function(i, j) UseMethod("visit")
-visit.LongitudinalData <- function(df, visit_id) {
-  df <- df %>% 
-    filter(visit == visit_id)
-  make_LD(df)
-}
-
-
 
 
 
@@ -69,12 +53,7 @@ data <- read_csv("data/MIE.csv")
 x <- make_LD(data)
 print(class(x))
 print(x)
-Longitudinal dataset with 10 subjects 
-> 
-  > ## Subject 10 doesn't exist
-  > out <- subject(x, 10)
-> print(out)
-NULL
-> 
-  > out <- subject(x, 14)
-> print(out)
+out <- subject(x, 10)
+print(out)
+out <- subject(x, 14)
+print(out)
