@@ -28,19 +28,48 @@ subject <- function(df, subject_id) UseMethod("subject")
 subject.LongitudinalData <- function(df, subject_id) {
   if(sum(df$id == subject_id) == 0)
     return(NULL)
-  df <- df[df$id == subject_id]
-  print(dim(df))
+  index <- which(df$id %in% subject_id)
+  df <- lapply(df, function(df) df[index])
   structure(df, class = "Subject")
 }
 
 
-# printing method for subjects
+# methods for subject
 print.Subject <- function(df) {
-  cat("Subject ID:", df[["id"]])
+  cat("Subject ID:", unique(df[["id"]]))
   invisible(df)
 }
 
+summary.Subject <- function(df) {
+  id <- unique(df[['id']])
+  df <-data_frame(
+    visit = df$visit,
+    room = df$room,
+    value = df$value
+  )
+  output <- df %>% 
+    group_by(visit, room) %>%
+    summarise(value = mean(value)) %>% 
+    spread(room, value) %>% 
+    as.data.frame
+  structure(list(id = id, output=output), class = "Summary")
+}
 
+
+print.Summary <- function(x) {
+  cat("ID:", x[[1]], "\n")
+  print(x[[2]])
+}
+
+x <- make_LD(data)
+print(class(x))
+print(x)
+out <- subject(x, 10)
+print(out)
+out <- subject(x, 14)
+print(out)
+out <- subject(x, 54) %>% summary
+print(out)
 
 library(readr)
 library(magrittr)
@@ -50,10 +79,3 @@ source("oop_code.R")
 data <- read_csv("data/MIE.csv")
 
 
-x <- make_LD(data)
-print(class(x))
-print(x)
-out <- subject(x, 10)
-print(out)
-out <- subject(x, 14)
-print(out)
