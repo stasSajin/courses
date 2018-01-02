@@ -29,8 +29,10 @@ subject.LongitudinalData <- function(df, subject_id) {
   if(sum(df$id == subject_id) == 0)
     return(NULL)
   index <- which(df$id %in% subject_id)
-  df <- lapply(df, function(df) df[index])
-  structure(df, class = "Subject")
+  df <- sapply(df, function(df) df[index])
+  df <- as.data.frame(df)
+  str(df)
+  structure(list(id=subject_id, data=df), class = "Subject")
 }
 
 
@@ -41,24 +43,34 @@ print.Subject <- function(df) {
 }
 
 summary.Subject <- function(df) {
-  id <- unique(df[['id']])
-  df <-data_frame(
-    visit = df$visit,
-    room = df$room,
-    value = df$value
-  )
-  output <- df %>% 
+  output <- df[['data']] %>% 
     group_by(visit, room) %>%
     summarise(value = mean(value)) %>% 
     spread(room, value) %>% 
     as.data.frame
-  structure(list(id = id, output=output), class = "Summary")
+  structure(list(id = df[['id']], output=output), class = "Summary")
 }
 
 
 print.Summary <- function(x) {
   cat("ID:", x[[1]], "\n")
   print(x[[2]])
+}
+
+
+visit.Subject <- function(df, visit) {
+  id <- unique(df[['id']])
+  df <-data_frame(
+    visit = df$visit,
+    room = df$room,
+    value = df$value
+  )
+  data <- df %>% 
+    filter(visit == visit) %>% 
+    select(-visit)
+  structure(list(id = id,
+                 visit_num = visit,
+                 data = data), class = "Visit")
 }
 
 x <- make_LD(data)
