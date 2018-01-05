@@ -30,8 +30,8 @@ subject.LongitudinalData <- function(df, subject_id) {
     return(NULL)
   index <- which(df$id %in% subject_id)
   df <- sapply(df, function(df) df[index])
-  df <- as.data.frame(df)
-  str(df)
+  df <- as.data.frame(df) %>% 
+    mutate_at(c("id", "visit", "value", "timepoint"), funs(as.numeric(as.character(.))))
   structure(list(id=subject_id, data=df), class = "Subject")
 }
 
@@ -43,14 +43,49 @@ print.Subject <- function(df) {
 }
 
 summary.Subject <- function(df) {
-  output <- df[['data']] %>% 
+  result <- df[['data']] %>% 
     group_by(visit, room) %>%
     summarise(value = mean(value)) %>% 
     spread(room, value) %>% 
     as.data.frame
-  structure(list(id = df[['id']], output=output), class = "Summary")
+  structure(list(id = df[['id']], data=result), class = "Summary")
 }
 
+# visit class and methods
+visit <- function(subjec_class, visit_n) UseMethod("visit")
+visit.Subject <- function(df, visit_n) {
+  result <- df[['data']] %>% 
+    filter(visit == visit_n)
+  structure(list(id = df[['id']],
+                 visit = visit_n,
+                 data = result), class = "Visit")
+}
+
+# room class and methods
+room <- function(visit_class, room_name) UseMethod("room")
+room.Visit <- function(df, room_name) {
+  result <- df[["data"]] %>% 
+    mutate(room = as.character(room)) %>% 
+    filter(room == room_name) %>% 
+    select(-room)
+  structure(list(id = df[["id"]],
+                 visit = df[["visit"]],
+                 room = room_name,
+                 data = result), class = "Room")
+}
+
+# printing and summary methods
+print.Room <- function(x) {
+  cat("ID:", x[["id"]], "\n")
+  cat("Visit:", x[["visit"]], "\n")
+  cat("Room:", x[["room"]])
+}
+
+summary.Room <- function(df) {
+  result <- summary(df[["data"]][["value"]])
+  structure(list(id = df[["id"]],
+                 output = result), class = "Summary")
+}
 
 print.Summary <- function(x) {
   cat("ID:", x[[1]], "\n")
@@ -58,36 +93,5 @@ print.Summary <- function(x) {
 }
 
 
-visit.Subject <- function(df, visit) {
-  id <- unique(df[['id']])
-  df <-data_frame(
-    visit = df$visit,
-    room = df$room,
-    value = df$value
-  )
-  data <- df %>% 
-    filter(visit == visit) %>% 
-    select(-visit)
-  structure(list(id = id,
-                 visit_num = visit,
-                 data = data), class = "Visit")
-}
-
-x <- make_LD(data)
-print(class(x))
-print(x)
-out <- subject(x, 10)
-print(out)
-out <- subject(x, 14)
-print(out)
-out <- subject(x, 54) %>% summary
-print(out)
-
-library(readr)
-library(magrittr)
-library(tidyr)
-source("oop_code.R")
-
-data <- read_csv("data/MIE.csv")
 
 
