@@ -2,19 +2,20 @@
 % Please edit documentation in R/fars_functions.R
 \name{fars_read}
 \alias{fars_read}
-\title{Read a csv file}
+\title{Read a csv file with automobile fatalities data}
 \usage{
 fars_read(filename)
 }
 \arguments{
-\item{filename}{A file or a file path pointing to a csv}
+\item{filename}{The csv filename.}
 }
 \value{
-The function will use the provided file_path to load the csv in memory.
- If the file cannot be found, the function will provide an error message.
+The function will use the provided file_path to load the data
+ contained in the csv in memory. If the file cannot be found, the function
+ will provide an error message.
 }
 \description{
-Read a csv file
+\code{fars_read} Reads a specific csv datafile using the provided filename.
 }
 \examples{
 fars_read('data/accident_2013.csv.bz2')
