@@ -21,3 +21,7 @@ bottleneck_features/
 R Related
 .Rhistory
 .Rproj.user
+
+# data files
+*.csv
+*.txt
