@@ -25,3 +25,4 @@ R Related
 # data files
 *.csv
 *.txt
+*.h5
