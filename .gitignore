@@ -15,6 +15,7 @@ bottleneck_features/
 *.p
 *.pkl
 *.zip 
+*.npy
 
 */.floyd*
 
