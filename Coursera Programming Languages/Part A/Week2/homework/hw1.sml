@@ -42,7 +42,30 @@ val number_in_month_test3 = number_in_month ([(2012,2,28)],2) = 1
 (*Q3. Write a function number_in_months that takes a list of dates and a
 list of months (i.e., an int list) and returns the number of dates in the list
 of dates that are in any of the months in the list of months. Assume the list
-of months has no number repeated. Hint: Use your answer to the previous problem
+of months has no number repeated. Hint: Use your answer to the previous problem*)
+
+fun number_in_months(dates: (int*int*int) list, months: int list) =
+    if null months
+    then 0
+    else number_in_month(dates, hd(months)) + number_in_months(dates, tl(months))
+
 val number_in_months_test1 = number_in_months ([(2012,2,28),(2013,12,1),(2011,3,31),(2011,4,28)],[2,3,4]) = 3
 val number_in_months_test2 = number_in_months ([(2012,2,28),(2013,12,1),(2011,3,31),(2011,4,28)],[5,5,5]) = 0
-val number_in_months_test3 = number_in_months ([(2012,2,28),(2013,12,1),(2011,3,31),(2011,4,28)],[2]) = 1*)
+val number_in_months_test3 = number_in_months ([(2012,2,28),(2013,12,1),(2011,3,31),(2011,4,28)],[2]) = 1
+
+(*Q4 Write a function dates_in_month that takes a list of dates and a month (i.e., an int) and returns a
+list holding the dates from the argument list of dates that are in the month. The returned list should
+contain dates in the order they were originally given.*)
+fun dates_in_month(dates: (int*int*int) list, month:int) =
+    (*let fun exists(date: (int*int*int)) =
+        if #2 date = month then date else SOME []
+    in*)
+
+    if null dates
+    then []
+    else hd(dates)::dates_in_month(tl(dates), month)
+
+    (*end*)
+
+
+val dates_in_month_test1 = dates_in_month ([(2012,2,28),(2013,12,1)],2)
