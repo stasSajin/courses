@@ -58,7 +58,7 @@ list holding the dates from the argument list of dates that are in the month. Th
 contain dates in the order they were originally given.*)
 fun dates_in_month(dates: (int*int*int) list, month:int) =
     (*let fun exists(date: (int*int*int)) =
-        if #2 date = month then date else SOME []
+        if #2 date = month then date else SOME [] some sml stuff
     in*)
 
     if null dates
