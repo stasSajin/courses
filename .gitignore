@@ -9,6 +9,8 @@ image/
 dogImages/
 lfw/
 bottleneck_features/
+home_data.gl/
+amazon_baby.gl/
 
 *.pickle
 *.pyc
