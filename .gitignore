@@ -11,6 +11,7 @@ lfw/
 bottleneck_features/
 home_data.gl/
 amazon_baby.gl/
+kc_house_data.gl/
 
 *.pickle
 *.pyc
