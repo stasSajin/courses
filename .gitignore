@@ -12,6 +12,11 @@ bottleneck_features/
 home_data.gl/
 amazon_baby.gl/
 kc_house_data.gl/
+lending-club-data.gl/
+amazon_baby_subset.gl/
+people_wiki.gl/
+images.sf/
+kmeans-arrays.npz
 
 *.pickle
 *.pyc
