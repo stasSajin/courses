@@ -75,7 +75,7 @@ May, June, July, August, September, October, November, December. *)
 val string_months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 fun date_to_string(date: int*int*int) =
-    get_nth(string_months, #2 date) ^ " " ^ Int.toString(#1 date) ^ ", " ^ Int.toString(#3 date)
+    get_nth(string_months, #2 date) ^ " " ^ Int.toString(#3 date) ^ ", " ^ Int.toString(#1 date)
 
 (*Q8 Write a function number_before_reaching_sum that takes an int called sum, which you can assume
 is positive, and an int list, which you can assume contains all positive numbers, and returns an int.
